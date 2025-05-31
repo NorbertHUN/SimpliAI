@@ -73,7 +73,9 @@ app.post('/speak', async (req, res) => {
     res.status(500).send('Hiba a hanggenerálásnál');
   }
 });
-
+app.get("/", (req, res) => {
+  res.send("SimpliAI szerver működik 🚀");
+});
 app.listen(port, () => {
   console.log(`🟢 SimpliAI szerver fut: http://localhost:${port}`);
 });
