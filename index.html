@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimpliAI - Online Pszichológus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #fff6f0, #fff);
+      color: #1e1e1e;
+    }
+
+    header {
+      background-color: #ff6a00;
+      padding: 60px 20px 30px;
+      text-align: center;
+      color: white;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      margin: 0;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .hero img=https://images.unsplash.com/photo-1614287751427-9183dff276a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mosolygó nő iPhone-nal">
+
+
+    .hero h2 {
+      font-size: 2rem;
+      color: #ff6a00;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      text-align: center;
+      color: #444;
+    }
+
+    .chat-container {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 600px;
+      margin: 40px auto;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+      width: 100%;
+      font-size: 1rem;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      resize: none;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #ff6a00;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #e25800;
+    }
+
+    #response {
+      margin-top: 20px;
+      padding: 18px;
+      background: #f9f9f9;
+      border-left: 4px solid #ff6a00;
+      border-radius: 10px;
+      min-height: 100px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Beszélgess a SimpliAI-jal</h1>
+  </header>
+
+  <section class="hero">
+    <img src="https://images.unsplash.com/photo-1614287751427-9183dff276a6?auto=format&fit=crop&w=500&q=80" alt="Mosolygó nő iPhone-nal">
+    <h2>Online pszichológus, aki mindig elérhető</h2>
+    <p>Beszélgess egy kedves, empatikus AI társaddal, aki segít kibeszélni a gondolataidat. Teljesen anonim, azonnali válaszokkal, nap 24 órájában.</p>
+  </section>
+
+  <div class="chat-container">
+    <textarea id="message" rows="4" placeholder="Írd meg, ami nyomja a lelked..."></textarea>
+    <button onclick="sendMessage()">Küldés</button>
+    <div id="response"></div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById("message").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerText = "Gondolkodom...";
+
+      try {
+        const res = await fetch("http://localhost:3001/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await res.json();
+        responseDiv.innerText = data.reply;
+      } catch (err) {
+        responseDiv.innerText = "Hiba történt: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
